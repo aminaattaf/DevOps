@@ -16,6 +16,3 @@ jobs:
       - name: Dire bonjour
         # et laction qui est effectué
         run: echo "Hello World!"
-
-      -name : nom
-        run : echo env.NAME
