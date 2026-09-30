@@ -1,0 +1,18 @@
+name : Hello World
+
+on:
+  push:
+    # pour indiquer que le action ne se fait que quadn push sur main
+    branches: main
+
+jobs:
+  afficher-hello:
+  # on demadne a github de nous préter une machine virtuel avec la dernière version de ubuntu
+    runs-on: ubuntu-latest
+    
+    # les étapes qui sont effectué
+    steps:
+      # le nom lisible 
+      - name: Dire bonjour
+        # et laction qui est effectué
+        run: echo "Hello World!"
