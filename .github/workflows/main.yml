@@ -15,6 +15,8 @@ jobs:
       NAME : "Amina"
       SURNAME : "ATTAF"
       EMAIL : "amina@cyu"
+
+  afficher-info :
     
     # les étapes qui sont effectué
     steps:
@@ -32,3 +34,4 @@ jobs:
 
       - name: Afficher mail
         run: echo "Le'eamil ${{ env.EMAIL }}"
+
