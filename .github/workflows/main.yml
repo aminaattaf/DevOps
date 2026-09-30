@@ -9,6 +9,12 @@ jobs:
   afficher-hello:
   # on demadne a github de nous préter une machine virtuel avec la dernière version de ubuntu
     runs-on: ubuntu-latest
+
+    # ajout des variable d'environnement
+    env:
+      NAME : "Amina"
+      SURNAME : "ATTAF"
+      EMAIL : "amina@cyu"
     
     # les étapes qui sont effectué
     steps:
@@ -16,3 +22,13 @@ jobs:
       - name: Dire bonjour
         # et laction qui est effectué
         run: echo "Hello World!"
+
+      # afficher les infos nom, prenom, email
+      - name: Afficher nom
+        run: echo "Le nom ${{ env.NAME }}"
+
+      - name: Afficher prenom
+        run: echo "Le prenom ${{ env.SURNAME }}"
+
+      - name: Afficher mail
+        run: echo "Le'eamil ${{ env.EMAIL }}"
