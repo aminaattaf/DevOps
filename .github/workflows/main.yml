@@ -25,13 +25,13 @@ jobs:
     steps:
       # afficher les infos nom, prenom, email
       - name: Afficher nom
-        run: echo "Le nom ${{ env.NAME }}"
+        run: echo "Le nom ${{ secrets.NAME }}"
 
       - name: Afficher prenom
-        run: echo "Le prenom ${{ env.SURNAME }}"
+        run: echo "Le prenom ${{ secrets.SURNAME }}"
 
       - name: Afficher mail
-        run: echo "Le'eamil ${{ env.EMAIL }}"
+        run: echo "Le'eamil ${{ secrets.EMAIL }}"
 
   script-python:
     # 2ème Job : Le script Python
