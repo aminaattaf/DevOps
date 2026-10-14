@@ -60,6 +60,7 @@ jobs:
     if: github.ref_name == 'Dev' || github.ref_name == 'Val' || github.ref_name == 'Prod'
     steps:
       - run: |
+          # le | permet d'indiquer q'uon va faire uen commande sur plusieurs lignes
           NOMBRE=40
           
           # Calcul selon la branche
