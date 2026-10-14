@@ -1,4 +1,4 @@
-name: Deploiement Pages
+name: Deploiement Page
 on:
   push:
     branches: main
