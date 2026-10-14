@@ -18,26 +18,69 @@ jobs:
         run: echo "Hello World!"
 
   afficher-info:
-    # on demadne a github de nous préter une machine virtuel avec la dernière version de ubuntu
-    runs-on: ubuntu-latest
-    
-    # les étapes qui sont effectué
+
     steps:
-      # afficher les infos nom, prenom, email
+      - name: Dire bonjour
+        run: echo "Hello World!"
+
       - name: Afficher nom
-        run: echo "Le nom ${{ secrets.NAME }}"
+        run: echo "Le nom est ${{ env.NAME }}"
 
       - name: Afficher prenom
-        run: echo "Le prenom ${{ secrets.SURNAME }}"
+        run: echo "Le prenom est ${{ env.SURNAME }}"
 
       - name: Afficher mail
-        run: echo "Le'eamil ${{ secrets.EMAIL }}"
+        run: echo "L'email est ${{ env.EMAIL }}"
 
   script-python:
-    # 2ème Job : Le script Python
+
     runs-on: ubuntu-latest
     
     steps:
       - name: Exécuter le script Python
         # L'option -c permet d'exécuter une commande Python directement
         run: python3 -c "print('Commit success !')"
+
+
+  script-branch:
+    runs-on: ubuntu-latest
+    
+    steps:
+
+      # On est obliger de cloner avant le dépôt sur la machine virtuelle pour avoir accès à Git
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Afficher le nom des branches
+        run: git branch --show-current
+
+  script-division:
+    runs-on: ubuntu-latest
+    # Ne s'exécute que sur ces 3 branches
+    if: github.ref_name == 'Dev' || github.ref_name == 'Val' || github.ref_name == 'Prod'
+    steps:
+      - run: |
+          NOMBRE=40
+          
+          # Calcul selon la branche
+          if [ 
+            "${{ github.ref_name }}" == "Dev" 
+          ]; then 
+            RES=$((NOMBRE / 2)); fi
+          if [ 
+            "${{ github.ref_name }}" == "Val" 
+          ]; then 
+            RES=$((NOMBRE / 4)); fi
+          if [ 
+            "${{ github.ref_name }}" == "Prod" 
+          ]; then 
+            RES=$((NOMBRE / 8)); fi
+          
+          echo "Le résultat est $RES"
+          
+          # Vérifier si c'est impair,
+          # Si oui alors on provoque une erreur (exit 1) pour arrêter
+          if [ $((RES % 2)) -ne 0 ]; then
+            echo "stpo c'est impair"
+            exit 1
+          fi
