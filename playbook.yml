@@ -1,0 +1,36 @@
+- name: Déploiement du serveur web local avec Ansible
+  # fait le lien avec le ficheir inventory.ini
+  hosts: web
+  # donne les droit d'admin à Ansible
+  become: yes
+  tasks:
+    - name: Installer Nginx
+      apt:
+        name: nginx
+        # on vérifie si bien présent
+        state: present
+        # on emplèche la mise à jour 
+        update_cache: no
+
+    - name: S'assurer que Nginx est démarré
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Déployer la page Hello World
+    # ici, on copie le fichier index.html 
+    # et on le cole dans le dossier web du serveur
+      copy:
+        src: ./index.html
+        dest: /var/www/html/index.html
+        # ça c'est pour définir les permissions de lecture 
+        # pour que le navigateur ait le droit d'afficher la page
+        mode: '0644'
+
+        # la commande que je dois exécuter : 
+        # ansible-playbook -i inventory.ini playbook.yml -K
+        # ici :
+        # elle lit l'inventaire (-i),
+        # applique le playbook, 
+        # et demande l'autorisation administrateur (-K)

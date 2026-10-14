@@ -2,23 +2,50 @@ name: Deploiement Page
 on:
   push:
     branches: main
-
+# on autorise ce script à lire le code 
+# et à modifier le site web GitHub Pages (qui doit bien sûr être public)
 permissions:
   contents: read
   pages: write
   id-token: write
 
 jobs:
-  deploy:
+  # pour linter le code HTML
+  # on va corriger le ficher HTML si i a des fautes
+  lint:
     runs-on: ubuntu-latest
+    steps:
+      # ici le serveur télécharge les ficheir pour pouvoir les lire
+      - uses: actions/checkout@v4
+      # on installe HTMLHint (c'est un liter) 
+      # qui permet de traquer les erreurs dans le code HTML
+      - name: Installer un linter HTML (HTMLHint)
+        run: npm install -g htmlhint
+      # ic on l'utilise et si il ya une erreur alors el job ne focntionne pas
+      - name: Analyser le fichier index.html
+        run: htmlhint index.html
+        
+  deploy:
+    # pour empêcher le déploiement si le lint échou
+    # docn on attend forcément, donc si le HMTL a une faute 
+    # et que le job d'avant fonctionne pas alors celui la non plus
+    needs: lint
+    runs-on: ubuntu-latest
+    # ici on fait les dernière installation
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # on clône le dépot pour que la machine de GitHub ait aussi accées
       - uses: actions/checkout@v4
+      # on vérifie les paramètre de dépôt (pour s'assurer qh'il est bien autorisé pour hébergé un site web)
       - uses: actions/configure-pages@v4
+      # ici c'est le paquet qui contient les pages web (on prend ce qui se trouve dans le dossier principal)
       - uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
+      # on prend ce qu'on a créer juste avant et  on l'envoi sur le serveur public de GitHub Pages
       - id: deployment
         uses: actions/deploy-pages@v4
+      # id: deployment sert à donner un nom à cette étape pour que la section environment 
+      # (vue plus haut) puisse retrouver l'URL du site à la fin
