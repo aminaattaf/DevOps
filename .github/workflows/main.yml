@@ -20,18 +20,18 @@ jobs:
   afficher-info:
     runs-on: ubuntu-latest
 
-      steps:
-        - name: Dire bonjour
-          run: echo "Hello World!"
+    steps:
+      - name: Dire bonjour
+        run: echo "Hello World!"
 
-        - name: Afficher nom
-          run: echo "Le nom est ${{ env.NAME }}"
+      - name: Afficher nom
+        run: echo "Le nom est ${{ env.NAME }}"
 
-        - name: Afficher prenom
-          run: echo "Le prenom est ${{ env.SURNAME }}"
+      - name: Afficher prenom
+        run: echo "Le prenom est ${{ env.SURNAME }}"
 
-        - name: Afficher mail
-          run: echo "L'email est ${{ env.EMAIL }}"
+      - name: Afficher mail
+        run: echo "L'email est ${{ env.EMAIL }}"
 
   script-python:
 
