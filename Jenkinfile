@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Compilation réussie'
+            }
+        }
+        stage('EchecVolontaire') {
+            steps {
+                echo 'Okay après correction normalement'
+            }
+        }
+    }
+}
